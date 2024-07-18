@@ -1,4 +1,8 @@
 <?php
+if ( defined( 'ATOMIC_UNHINGED_PLUGIN_DOT_PHP' ) ) {
+	return;
+}
+define( 'ATOMIC_UNHINGED_PLUGIN_DOT_PHP', true );
 /**
  * The plugin API is located in this file, which allows for creating actions
  * and filters and hooking functions, and methods. The functions or methods will

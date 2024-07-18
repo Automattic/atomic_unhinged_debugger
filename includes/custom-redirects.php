@@ -5,25 +5,27 @@ class Atomic_Unhinged_Debugger {
 
 	public function index_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval = str_replace(
 			"require __DIR__ . '/wp-blog-header.php';",
 			"eval( \$GLOBALS['__atomic_unhinged_debugger']->wp_blog_header_dot_php() );",
 			substr( file_get_contents( ABSPATH . 'index.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function wp_blog_header_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval = str_replace(
 			"require_once __DIR__ . '/wp-load.php';",
 			"eval( \$GLOBALS['__atomic_unhinged_debugger']->wp_load_dot_php() );",
 			substr( file_get_contents( ABSPATH . 'wp-blog-header.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function wp_load_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval = str_replace(
 			array(
 				"require_once dirname( ABSPATH ) . '/wp-config.php';",
 				"require_once ABSPATH . WPINC . '/load.php';",
@@ -34,6 +36,7 @@ class Atomic_Unhinged_Debugger {
 			),
 			substr( file_get_contents( ABSPATH . 'wp-load.php' ), 6 )
 		);
+		return $rval;
 	}
 
 
@@ -50,25 +53,27 @@ class Atomic_Unhinged_Debugger {
 
 	public function wp_config_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return preg_replace(
+		$rval = preg_replace(
 			'/^.*wp-settings\.php.*$/m',
 			"eval( \$GLOBALS['__atomic_unhinged_debugger']->wp_settings_dot_php() );",
 			substr( file_get_contents( '/srv/htdocs/wp-config.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function class_wp_plugin_dependencies_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval =str_replace(
 			"require_once ABSPATH . WPINC . '/plugin.php';",
 			"# require_once ABSPATH . WPINC . '/plugin.php';",
 			substr( file_get_contents( ABSPATH . 'wp-includes/class-wp-plugin-dependencies.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function wp_settings_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval = str_replace(
 			array(
 				"require_once ABSPATH . WPINC . '/plugin.php';",
 				"require ABSPATH . WPINC . '/class-wp-plugin-dependencies.php';",
@@ -88,24 +93,27 @@ class Atomic_Unhinged_Debugger {
 			),
 			substr( file_get_contents( ABSPATH . 'wp-settings.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function admin_ajax_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval = str_replace(
 			"require_once dirname( __DIR__ ) . '/wp-load.php';",
 			"eval( \$GLOBALS['__atomic_unhinged_debugger']->wp_load_dot_php() );",
 			substr( file_get_contents( ABSPATH . 'wp-admin/admin-ajax.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function wp_includes_slash_load_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval = str_replace(
 				'$wpdb = new wpdb( $dbuser, $dbpassword, $dbname, $dbhost );',
 				"require_once '" . __DIR__ . "/class-aud-wpdb.php';\n" . '$wpdb = new aud_wpdb( $dbuser, $dbpassword, $dbname, $dbhost );',
 				substr( file_get_contents( ABSPATH . 'wp-includes/load.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function get_scripts_slash_env_dot_php_from_frame_for_eval( $frame ) {
@@ -138,11 +146,12 @@ class Atomic_Unhinged_Debugger {
 
 	public function wp_cron_dot_php() {
 		error_log( sprintf( '%s->%s', __CLASS__, __FUNCTION__ ) );
-		return str_replace(
+		$rval = str_replace(
 			"define( 'DOING_CRON', true );",
 			"define( 'DOING_CRON', true );\neval( \$GLOBALS['__atomic_unhinged_debugger']->wp_load_dot_php() );",
 			substr( file_get_contents( ABSPATH . 'wp-cron.php' ), 6 )
 		);
+		return $rval;
 	}
 
 	public function should() {

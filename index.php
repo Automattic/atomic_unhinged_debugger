@@ -5,6 +5,8 @@ header('Cache-Control: post-check=0, pre-check=0',false);
 header('Pragma: no-cache');
 ini_set( 'display_errors', 'on' );
 
+function _canonical_charset() { return 'UTF-8'; }
+function is_utf8_charset() { return true; }
 function apply_filters($f, $in) { return $in; }
 function get_option(){}
 function wp_load_alloptions(){}
@@ -27,7 +29,7 @@ function pattern_select_dropdown_menu() {
 	<?php
 		chdir( '/tmp' );
 		foreach( glob( 'pat-*' ) as $entry ) {
-			if ( ! preg_match( '/^pat-[0-9]+.[0-9]+-[0-9]+-[a-z0-9_-]+$/i', $entry ) ) {
+			if ( ! preg_match( '/^pat-[0-9]+\.[0-9]+-[0-9]+-[a-z0-9_-]+$/i', $entry ) ) {
 				continue;
 			}
 			$entries[] = $entry;
@@ -69,15 +71,11 @@ function pattern_select_dropdown_menu() {
 		}
 	</style>
 	<link rel="stylesheet" href="bootstrap-5.3.3/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="bootstrap-5.3.3/css/bootstrap-theme.min.css"/>
-	<!-- <script src="jquery/jquery-1.12.4.min.js"></script> -->
-	<!-- <script src="bootstrap-5.3.3/js/bootstrap.min.js"></script> -->
 	<script src="htmx/htmx.min.js"></script>
 </head>
 <body>
 	<div class="container" role="main">
 <?php
-
 
 pattern_select_dropdown_menu();
 
@@ -117,8 +115,8 @@ $info = fgets( $fp );
 			<form style="" method="GET">
 				<input type="hidden" name="view" value="<?php echo $_GET['view']; ?>"/>
 				<input type="hidden" name="section" value="individual"/>
-				@<input style="width:5em;" type="text" name="at" placeholder="milliseconds or more" value="<?php esc_attr_e( $_GET['at'] ?? '' ); ?>"/>
-				&gt;<input style="width:5em;" type="text" name="minms" placeholder="milliseconds or more" value="<?php esc_attr_e( $_GET['minms'] ?? '' ); ?>"/>ms
+				@<input style="width:5em;" type="text" name="at" placeholder="position" value="<?php esc_attr_e( $_GET['at'] ?? '' ); ?>"/>
+				&gt;<input style="width:5em;" type="text" name="minms" placeholder="ms or more" value="<?php esc_attr_e( $_GET['minms'] ?? '' ); ?>"/>ms
 				<button>View individual</button>
 			</form>
 		</div>
