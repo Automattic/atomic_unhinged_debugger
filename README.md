@@ -7,6 +7,7 @@
 5. access the site
 6. open `https://{your.site}/atomic_unhinged_debugger/` in your web browser
 7. using your browsers debug tools set a cookie named `enableAUD` with the value `true` for your site and start digging...
+8. remember to delete the `/tmp/pat-*` files when you're done.
 
 Hopefully that works... ¯\\_(ツ)_/¯
 
